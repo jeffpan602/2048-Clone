@@ -5,7 +5,7 @@ import { Panel } from './Panel.js';
 
 export const Board = ({ board, onClick }) => {
     return (
-        <div>
+        <div className="board">
             {board.map((value, index) => {
                 return <Panel value={value} onClick={() => onClick(index)} />
             })}
