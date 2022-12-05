@@ -12,22 +12,30 @@ function App() {
 
   const Block = ({ num }) => {
     const { blockStyle } = style
-
+    //{num !== 0 ? num : ""}
     return (
       <div
         style={{
           ...blockStyle,
           //background: getColors(num),
           color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
-        }}
-      >
-        {num !== 0 ? num : ""}
+        }}>
+        {num}
       </div>
     )
   }
 
   return (
-    <div className='board'>
+    <div className='board' style={{
+      background: "#AD9D8F",
+      width: "max-content",
+      height: "max-content",
+      margin: "auto",
+      padding: 5,
+      borderRadius: 5,
+      marginTop: 10,
+      position: "relative",
+    }}>
       {data.map((row, indexA) => {
         return (
           <div style={{ display: "flex" }} key={indexA}>
@@ -46,12 +54,12 @@ const style = {
     height: 80,
     width: 80,
     background: "lightgray",
-    margin: 3,
+    margin: 5,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     fontSize: 45,
-    fontWeight: "800",
+    fontWeight: "750",
     color: "white",
   }
 }

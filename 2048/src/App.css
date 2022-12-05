@@ -1,8 +1,10 @@
 .board {
   background: #AD9D8F;
   width: max-content;
+  height: max-content;
   padding: 5;
   margin: auto;
-  border-radius: 5%;
   margin-top: 10;
+  position: relative;
+  border-width: 10%;
 }
