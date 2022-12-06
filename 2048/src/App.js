@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react'
 import cloneDeep from "lodash.clonedeep";
-import { useKeyEvent } from './keyUtil';
+import { useKeyEvent, getColors } from './keyUtil';
 
 
 function App() {
@@ -244,7 +244,7 @@ function App() {
       <div
         style={{
           ...blockStyle,
-          //background: getColors(num),
+          background: getColors(num),
           color: num === 2 || num === 4 ? "#645B52" : "#F7F4EF",
         }}>
         {num}
