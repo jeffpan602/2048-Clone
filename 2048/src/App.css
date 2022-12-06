@@ -2,13 +2,16 @@
   background: #AD9D8F;
   width: max-content;
   height: max-content;
-  padding: 5;
   margin: auto;
-  margin-top: 10;
   position: relative;
   border-width: 10%;
 }
 
 .resetBtn {
-  justify-content: center;
+  text-align: center;
+  padding: 50px;
+}
+
+.header {
+  text-align: center;
 }

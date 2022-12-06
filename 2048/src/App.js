@@ -303,6 +303,7 @@ function App() {
 
   return (
     <div className='2048'>
+      <h1 className='header'>2048</h1>
       <div className='board' style={{
         background: "#AD9D8F",
         width: "max-content",
@@ -323,7 +324,17 @@ function App() {
           );
         })}
       </div>
-      <div className='resetBtn' onClick={reset}>New Game</div>
+      <div className='resetBtn' onClick={reset} style={{
+        padding: 10,
+        background: "#AD9D8F",
+        color: "#F8F5F0",
+        width: 80,
+        borderRadius: 5,
+        fontWeight: "750",
+        margin: "auto",
+        marginTop: 15,
+        cursor: "pointer",
+      }}>New Game</div>
     </div>
   );
 }
