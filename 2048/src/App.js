@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react'
 import cloneDeep from "lodash.clonedeep";
+import { useKeyEvent } from './keyUtil';
 
 
 function App() {
@@ -12,7 +13,13 @@ function App() {
     [0, 0, 0, 0]
   ])
 
-  //Gives 2 random starting numbers for the board
+  const leftkey = 37;
+  const rightKey = 39;
+  const upKey = 38;
+  const downKey = 40;
+
+
+  //Gives 2 random numbers for the board after a turn
   const addNumber = (newGrid) => {
     let added = false
     let isFullGrid = false
@@ -32,7 +39,7 @@ function App() {
     }
   }
 
-  //Initialize the grid 
+  //Initialize the grid with two random numbers 
   const initialize = () => {
     let newGrid = cloneDeep(data)
     console.log(newGrid)
@@ -43,9 +50,192 @@ function App() {
     setData(newGrid);
   }
 
+  const swipeLeft = () => {
+    let oldGrid = data;
+    let newArray = cloneDeep(data);
+
+    for (let i = 0; i < 4; i++) {
+      let arr = newArray[i];
+      let slow = 0;
+      let fast = 1;
+      while (slow < 4) {
+        if (fast === 4) {
+          fast = slow + 1;
+          slow++;
+          continue;
+        }
+        if (arr[slow] === 0 && arr[fast] === 0) {
+          fast++;
+        } else if (arr[slow] === 0 && arr[fast] !== 0) {
+          arr[slow] = arr[fast];
+          arr[fast] = 0;
+          fast++;
+        } else if (arr[slow] !== 0 && arr[fast] === 0) {
+          fast++;
+        } else if (arr[slow] !== 0 && arr[fast] !== 0) {
+          if (arr[slow] === arr[fast]) {
+            arr[slow] = arr[slow] + arr[fast];
+            arr[fast] = 0;
+            fast = slow + 1;
+            slow++;
+          } else {
+            slow++;
+            fast = slow + 1;
+          }
+        }
+      }
+    }
+    if (JSON.stringify(oldGrid) !== JSON.stringify(newArray)) {
+      addNumber(newArray);
+    }
+    setData(newArray)
+  }
+
+  const swipeRight = () => {
+    let oldData = data;
+    let newArray = cloneDeep(data);
+
+    for (let i = 3; i >= 0; i--) {
+      let arr = newArray[i];
+      let slow = arr.length - 1;
+      let fast = slow - 1;
+      while (slow > 0) {
+        if (fast === -1) {
+          fast = slow - 1;
+          slow--;
+          continue;
+        }
+        if (arr[slow] === 0 && arr[fast] === 0) {
+          fast--;
+        } else if (arr[slow] === 0 && arr[fast] !== 0) {
+          arr[slow] = arr[fast];
+          arr[fast] = 0;
+          fast--;
+        } else if (arr[slow] !== 0 && arr[fast] === 0) {
+          fast--;
+        } else if (arr[slow] !== 0 && arr[fast] !== 0) {
+          if (arr[slow] === arr[fast]) {
+            arr[slow] = arr[slow] + arr[fast];
+            arr[fast] = 0;
+            fast = slow - 1;
+            slow--;
+          } else {
+            slow--;
+            fast = slow - 1;
+          }
+        }
+      }
+    }
+    if (JSON.stringify(newArray) !== JSON.stringify(oldData)) {
+      addNumber(newArray);
+    }
+    setData(newArray)
+  }
+
+  const swipeUp = () => {
+    let arr = cloneDeep(data);
+    let oldData = JSON.parse(JSON.stringify(data));
+    for (let i = 0; i < 4; i++) {
+      let slow = 0;
+      let fast = 1;
+      while (slow < 4) {
+        if (fast === 4) {
+          fast = slow + 1;
+          slow++;
+          continue;
+        }
+        if (arr[slow][i] === 0 && arr[fast][i] === 0) {
+          fast++;
+        } else if (arr[slow][i] === 0 && arr[fast][i] !== 0) {
+          arr[slow][i] = arr[fast][i];
+          arr[fast][i] = 0;
+          fast++;
+        } else if (arr[slow][i] !== 0 && arr[fast][i] === 0) {
+          fast++;
+        } else if (arr[slow][i] !== 0 && arr[fast][i] !== 0) {
+          if (arr[slow][i] === arr[fast][i]) {
+            arr[slow][i] = arr[slow][i] + arr[fast][i];
+            arr[fast][i] = 0;
+            fast = slow + 1;
+            slow++;
+          } else {
+            slow++;
+            fast = slow + 1;
+          }
+        }
+      }
+    }
+    if (JSON.stringify(oldData) !== JSON.stringify(arr)) {
+      addNumber(arr);
+    }
+    setData(arr)
+  }
+
+  const swipeDown = (dummy) => {
+    let arr = cloneDeep(data);
+    let oldData = JSON.parse(JSON.stringify(data));
+
+    for (let i = 3; i >= 0; i--) {
+      let slow = arr.length - 1;
+      let fast = slow - 1;
+      while (slow > 0) {
+        if (fast === -1) {
+          fast = slow - 1;
+          slow--;
+          continue;
+        }
+        if (arr[slow][i] === 0 && arr[fast][i] === 0) {
+          fast--;
+        } else if (arr[slow][i] === 0 && arr[fast][i] !== 0) {
+          arr[slow][i] = arr[fast][i];
+          arr[fast][i] = 0;
+          fast--;
+        } else if (arr[slow][i] !== 0 && arr[fast][i] === 0) {
+          fast--;
+        } else if (arr[slow][i] !== 0 && arr[fast][i] !== 0) {
+          if (arr[slow][i] === arr[fast][i]) {
+            arr[slow][i] = arr[slow][i] + arr[fast][i];
+            arr[fast][i] = 0;
+            fast = slow - 1;
+            slow--;
+          } else {
+            slow--;
+            fast = slow - 1;
+          }
+        }
+      }
+    }
+    if (JSON.stringify(arr) !== JSON.stringify(oldData)) {
+      addNumber(arr);
+    }
+    setData(arr)
+  }
+
+
+  const handleKey = (event) => {
+    switch (event.keyCode) {
+      default:
+        break
+      case leftkey:
+        swipeLeft()
+        break
+      case rightKey:
+        swipeRight()
+        break
+      case upKey:
+        swipeUp()
+        break
+      case downKey:
+        swipeDown()
+        break
+    }
+  }
+
   useEffect(() => {
     initialize()
   }, [])
+
+  useKeyEvent('keydown', handleKey)
 
   const Block = ({ num }) => {
     const { blockStyle } = style
