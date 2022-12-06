@@ -1,5 +1,7 @@
 import './App.css';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import cloneDeep from "lodash.clonedeep";
+
 
 function App() {
 
@@ -9,6 +11,41 @@ function App() {
     [0, 0, 0, 0],
     [0, 0, 0, 0]
   ])
+
+  //Gives 2 random starting numbers for the board
+  const addNumber = (newGrid) => {
+    let added = false
+    let isFullGrid = false
+    let attempts = 0
+
+    while (!added) {
+      if (isFullGrid)
+        break;
+
+      let start1 = Math.floor(Math.random() * 4);
+      let start2 = Math.floor(Math.random() * 4);
+      attempts++;
+      if (newGrid[start1][start2] === 0) {
+        newGrid[start1][start2] = Math.random() > 0.5 ? 2 : 4;
+        added = true;
+      }
+    }
+  }
+
+  //Initialize the grid 
+  const initialize = () => {
+    let newGrid = cloneDeep(data)
+    console.log(newGrid)
+    addNumber(newGrid);
+    console.table(newGrid)
+    addNumber(newGrid);
+    console.table(newGrid)
+    setData(newGrid);
+  }
+
+  useEffect(() => {
+    initialize()
+  }, [])
 
   const Block = ({ num }) => {
     const { blockStyle } = style
