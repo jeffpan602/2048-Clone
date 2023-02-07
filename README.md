@@ -1,3 +1,3 @@
-# CSDS-pr03
+# 2048-Clone
 
-2048 Game for CSDS 221 pr03
+Clone of the popular game 2048 for CSDS 221: Full Stack Web Development pr03
